@@ -85,6 +85,8 @@ https://finviz.com/""")
 # Create a text input field for the user to enter a stock ticker
 symbol_input = st.text_input("Enter a stock ticker").upper()
 
+client = OpenAI(api_key=st.secrets["api_key"])
+
 # Check if the "Go" button has been clicked
 if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
     
@@ -192,9 +194,8 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
             # Display the income statement table in Streamlit
             st.table(income_statement_data)
 
-        # AI 기업 설명
-        st.caption("AI 기업 설명")
-        client = OpenAI(api_key=st.secrets["api_key"])
+        # AI 해석
+        st.caption("AI 해석")
 
         company_data_str=json.dumps(company_data)
         summary = client.chat.completions.create(
@@ -251,6 +252,25 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
         # Render the line chart 
         st.plotly_chart(fig, config=config, use_container_width=True)
 
+        # AI 해석
+        st.caption("AI 해석")
+
+        performance_data_str=df.to_string(performance_data)
+        summary = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+              {"role": "system", "content": "You are a helpful assistant and stock expert."},
+              {"role": "user", "content": "Please explain the following data easily in Korean:"
+               + performance_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
 
         # Display net income
         # Create the line chart 
