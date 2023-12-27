@@ -192,22 +192,24 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
             # Display the income statement table in Streamlit
             st.table(income_statement_data)
 
-            client = OpenAI(api_key=st.secrets["api_key"])
+                    client = OpenAI(api_key=st.secrets["api_key"])
 
-            company_data_str=json.dumps(company_data)
-            summary = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                  {"role": "system", "content": "You are a helpful assistant and stock expert."},
-                  {"role": "user", "content": "Please explain the following data easily in Korean:"
-                   + company_data_str
-                  },
-                ]
-            )
+        company_data_str=json.dumps(company_data)
+        summary = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+              {"role": "system", "content": "You are a helpful assistant and stock expert."},
+              {"role": "user", "content": "Please explain the following data easily in Korean:"
+               + company_data_str
+              },
+            ]
+        )
 
-            for choice in choices:
-              print(choice.message.content)
-              st.markdown(choice.message.content)
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
         
         # Configure the plots bar
         config = {
