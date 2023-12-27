@@ -6,3 +6,4 @@ plotly
 streamlit==1.18.1
 XlsxWriter
 openai
+json
