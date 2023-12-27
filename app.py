@@ -192,6 +192,8 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
             # Display the income statement table in Streamlit
             st.table(income_statement_data)
 
+        # AI 기업 설명
+        st.caption("AI 기업 설명")
         client = OpenAI(api_key=st.secrets["api_key"])
 
         company_data_str=json.dumps(company_data)
