@@ -12,6 +12,9 @@ import numpy as np
 import plotly.graph_objs as go
 from io import BytesIO
 import sys
+from openai import OpenAI
+import json
+
 from utils import (
     config_menu_footer, generate_card, empty_lines, get_delta, color_highlighter
 )
@@ -19,7 +22,6 @@ from data import (
     get_income_statement, get_balance_sheet, get_stock_price, get_company_info,
     get_financial_ratios, get_key_metrics, get_cash_flow
 )
-
 
 # Define caching functions for each API call
 @st.cache_data(ttl=60*60*24*30) # cache output for 30 days
@@ -190,7 +192,23 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
             # Display the income statement table in Streamlit
             st.table(income_statement_data)
 
+            client = OpenAI(api_key=st.secrets["api_key"])
 
+            company_data_str=json.dumps(company_data)
+            summary = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                  {"role": "system", "content": "You are a helpful assistant and stock expert."},
+                  {"role": "user", "content": "Please explain the following data easily in Korean:"
+                   + company_data_str
+                  },
+                ]
+            )
+
+            for choice in choices:
+              print(choice.message.content)
+              st.markdown(choice.message.content)
+        
         # Configure the plots bar
         config = {
             'displaylogo': False, 
