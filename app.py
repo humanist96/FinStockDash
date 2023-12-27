@@ -255,7 +255,7 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
         # AI 해석
         st.caption("AI 해석")
 
-        performance_data_str=df.to_string(performance_data)
+        performance_data_str=performance_data.to_string()
         summary = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
