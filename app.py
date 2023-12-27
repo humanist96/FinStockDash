@@ -77,6 +77,9 @@ def callback():
     # change state value
     st.session_state['btn_clicked'] = True
 
+st.caption("""미국 Ticker 조회 
+https://finviz.com/""")
+
 # Create a text input field for the user to enter a stock ticker
 symbol_input = st.text_input("Enter a stock ticker").upper()
 
