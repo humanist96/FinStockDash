@@ -374,6 +374,26 @@ Ensure your explanation is clear, concise, and suitable for a general audience, 
         # Display the plot 
         st.plotly_chart(fig, config=config, use_container_width=True)
 
+        # AI 해석
+        st.caption("AI 해석")
+
+        ratios_data_str=ratios_data.to_string()
+        summary = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+              {"role": "system", "content": """You are a financial analyst."""},
+              {"role": "user", "content": "Please explain the following ratios_data easily in Korean:"
+               + ratios_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
+
 
         #Display balance sheet
         # Create a vertical bar chart of Assets and Liabilities
@@ -419,6 +439,26 @@ Ensure your explanation is clear, concise, and suitable for a general audience, 
         # Display the plot 
         st.plotly_chart(fig, config=config, use_container_width=True)
 
+        # AI 해석
+        st.caption("AI 해석")
+
+        balance_sheet_data_str=balance_sheet_data.to_string()
+        summary = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+              {"role": "system", "content": """You are a financial analyst."""},
+              {"role": "user", "content": "Please explain the following balance_sheet_data easily in Korean:"
+               + balance_sheet_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
+
 
         # Display ROE and ROA
         # Create the line chart 
@@ -453,6 +493,26 @@ Ensure your explanation is clear, concise, and suitable for a general audience, 
         st.plotly_chart(fig, config=config, use_container_width=True)
 
 
+        # AI 해석
+        st.caption("AI 해석")
+
+        ratios_data_str=ratios_data.to_string()
+        summary = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+              {"role": "system", "content": """You are a financial analyst."""},
+              {"role": "user", "content": "Please explain the following ROE and ROA data easily in Korean:"
+               + ratios_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
+            
         # Display cash flows
         # Create a vertical bar chart of Cash flows
         fig = go.Figure()
@@ -504,6 +564,27 @@ Ensure your explanation is clear, concise, and suitable for a general audience, 
         # Display the plot 
         st.plotly_chart(fig, config=config, use_container_width=True)
 
+
+         # AI 해석
+        st.caption("AI 해석")
+
+        cashflow_data_str=cashflow_data.to_string()
+        summary = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+              {"role": "system", "content": """You are a financial analyst."""},
+              {"role": "user", "content": "Please explain the following cash flow data easily in Korean:"
+               + cashflow_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
+            
         #Display financial ratios table 
         empty_lines(1)
         st.markdown('**Financial Ratios**')
