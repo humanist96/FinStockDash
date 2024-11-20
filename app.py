@@ -238,7 +238,7 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
         # Customize the chart layout
         fig.update_layout(
             title={
-                'text': 'Market Performance',
+                'text': 'Market Performance'
             },
             dragmode='pan',
             xaxis=dict(
@@ -257,7 +257,7 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
 
         performance_data_str=performance_data.to_string()
         summary = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
               {"role": "system", "content": """You are a financial analyst. Please analyze the provided market performance data and identify the previous highest value (all-time high) and the previous lowest value (all-time low). Explain these points in simple terms, including the following:
 
@@ -311,6 +311,25 @@ Ensure your explanation is clear, concise, and suitable for a general audience, 
         # Display the graph
         st.plotly_chart(fig, config=config, use_container_width=True)
 
+        # AI 해석
+        st.caption("AI 해석")
+
+        income_data_str=income_data.to_string()
+        summary = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+              {"role": "system", "content": """You are a financial analyst."""},
+              {"role": "user", "content": "Please explain the following income_data easily in Korean:"
+               + income_data_str
+              },
+            ]
+        )
+
+        choices = summary.choices
+        
+        for choice in choices:
+          print(choice.message.content)
+          st.markdown(choice.message.content)
 
         # Display profitability margins
         # Create an horizontal bar chart of profitability margins
