@@ -199,7 +199,7 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
 
         company_data_str=json.dumps(company_data)
         summary = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=[
               {"role": "system", "content": "You are a helpful assistant and stock expert."},
               {"role": "user", "content": "Please explain the following data easily in Korean:"
