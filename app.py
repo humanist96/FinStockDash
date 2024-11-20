@@ -199,7 +199,7 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
 
         company_data_str=json.dumps(company_data)
         summary = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[
               {"role": "system", "content": "You are a helpful assistant and stock expert."},
               {"role": "user", "content": "Please explain the following data easily in Korean:"
@@ -259,7 +259,12 @@ if st.button('Go',on_click=callback) or st.session_state['btn_clicked']:
         summary = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-              {"role": "system", "content": "You are a helpful assistant and stock expert. Explain time series data such as previous highs, peaks, and lowest points."},
+              {"role": "system", "content": "You are a financial analyst. Please analyze the provided market performance data and identify the previous highest value (all-time high) and the previous lowest value (all-time low). Explain these points in simple terms, including the following:
+
+The exact values of the all-time high and all-time low.
+The dates or time periods when these points occurred.
+Any potential significance or implications of these values in the context of market performance.
+Ensure your explanation is clear, concise, and suitable for a general audience, avoiding technical jargon"},
               {"role": "user", "content": "Please explain the following data easily in Korean:"
                + performance_data_str
               },
